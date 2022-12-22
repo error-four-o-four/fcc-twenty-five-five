@@ -1,0 +1,35 @@
+:root {
+	/* https://farbvelo.elastiq.ch/ */
+
+	--gray-05: #0d0d0d;
+	--gray-10: #1a1a1a;
+	--gray-15: #262626;
+	--gray-20: #333;
+
+	--gray-30: #4d4d4d;
+	--gray-40: #666;
+	--gray-50: #808080;
+	--gray-60: #999;
+	--gray-70: #b3b3b3;
+
+	--gray-80: #ccc;
+	--gray-85: #d9d9d9;
+	--gray-90: #e6e6e6;
+	--gray-95: #f2f2f2;
+}
+
+@custom-media --light (prefers-color-scheme: light);
+
+@custom-media --reduced-motion (prefers-reduced-motion: reduce);
+@custom-media --no-preference-motion (prefers-reduced-motion: no-preference);
+
+@custom-media --mq-max-480 screen and (max-width: 480px);
+@custom-media --mq-min-480 screen and (min-width: 480px);
+
+@custom-media --mq-max-640 screen and (max-width: 640px);
+@custom-media --mq-min-640 screen and (min-width: 640px);
+
+@custom-media --mq-max-960 screen and (max-width: 960px);
+@custom-media --mq-min-960 screen and (min-width: 960px);
+
+@custom-media --mq-min-1280 screen and (min-width: 1280px);
