@@ -15,6 +15,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "lint": "prettier -w . && eslint --fix .",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -29,6 +30,7 @@
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.2.1",
@@ -37,6 +39,7 @@
     "postcss-custom-media": "^9.0.1",
     "postcss-nesting": "^10.2.0",
     "prettier": "^2.8.1",
+    "unplugin-icons": "^0.14.15",
     "vite": "^4.0.0"
   }
 }

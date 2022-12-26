@@ -15,9 +15,30 @@
     "sourceType": "module"
   },
   "plugins": ["react", "prettier"],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["@", "./src"],
+          ["@js", "./src/assets/js"],
+          ["@css", "./src/assets/css"],
+          ["@components", "./src/components"]
+        ],
+        "extensions": [".js", ".jsx", ".json", ".css"]
+      }
+    }
+  },
   "rules": {
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 0,
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "import/extensions": ["error", "always", { "ignorePackages": true }],
+    "no-unused-vars": [
+      "warn",
+      { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
+    ],
+    "no-console": 0,
+    "no-nested-ternary": 0,
+    "arrow-parens": ["error", "always"]
   }
 }

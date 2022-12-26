@@ -1,0 +1,26 @@
+.App {
+  width: 100%;
+  padding: 1rem;
+}
+
+.clock {
+  --size: clamp(2rem, 8vmin, 8rem);
+  --size-0-25: calc(0.25 * var(--size));
+  --size-0-5: calc(0.5 * var(--size));
+  --size-1-5: calc(1.5 * var(--size));
+
+  position: relative;
+  width: 60vmin;
+  min-width: 240px;
+  max-width: 480px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto 2rem;
+}
+
+.settings {
+  padding: 1rem;
+
+  border-radius: 0.5rem;
+  border: 1px solid var(--clr-medium);
+  background: #0009;
+}

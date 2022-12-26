@@ -19,7 +19,6 @@ export default (args) => {
   // console.log(args);
 
   return defineConfig({
-    // https://vitejs.dev/guide/build.html#public-base-path
     base: './',
     resolve: {
       alias: [
@@ -31,6 +30,10 @@ export default (args) => {
         {
           find: '@js',
           replacement: path.resolve(__dirname, './src/assets/js'),
+        },
+        {
+          find: '@components',
+          replacement: path.resolve(__dirname, './src/components'),
         },
       ],
     },
