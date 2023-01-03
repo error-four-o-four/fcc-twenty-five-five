@@ -1,6 +1,15 @@
-import { TYPES } from '@components/clock/Context.jsx';
+import { TYPES } from './clockReducer.js';
 
 export const RESET_VALUES = 'reset-values';
+
+export const SOURCE_VALUES = [
+  {name: 'sound1', value: 'a'},
+  {name: 'sound2', value: 'b'},
+  {name: 'sound3', value: 'c'},
+  {name: 'sound4', value: 'd'},
+  {name: 'sound5', value: 'e'},
+  {name: 'sound6', value: 'f'},
+]
 
 const initialSession = 25;
 const initialBreak = 5;

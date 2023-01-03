@@ -1,56 +1,51 @@
 import { useEffect } from 'react';
 
-// import { TYPES, useClockContext, useClockContextUpdater } from './Context.jsx';
+import { Icon } from '@iconify/react';
 import { ACTIONS } from '@js/clockReducer.js';
 
-import styles from './Clock.module.css';
-
-function ClockButtons({ clock, updateClock }) {
-  // const { active, paused } = useClockContext();
-  // const { setType, setActive, setPaused } = useClockContextUpdater();
-
-  const { active, paused } = clock;
+export default function Buttons({ clockState, dispatchClockUpdate }) {
+  const { active, paused } = clockState;
 
   const toggle = () => {
-    updateClock({ type: ACTIONS.TOGGLE });
-    // if (!active) {
-    //   setActive(true);
-    // } else {
-    //   setActive(false);
-    //   setPaused(false);
-    //   setType(TYPES.SESSION);
-    // }
+    dispatchClockUpdate({ type: ACTIONS.TOGGLE });
   };
 
-  // const pause = () => {
-  //   setPaused((prev) => !prev);
-  // };
-
   const stop = () => {
-    updateClock({ type: ACTIONS.STOP });
+    dispatchClockUpdate({ type: ACTIONS.STOP });
   };
 
   useEffect(() => {
     console.count('Render Buttons');
   });
 
-  // const labelStartStop = active ? 'Stop' : 'Start';
-  // const labelPause = paused ? 'Resume' : 'Pause';
-
-  const label = !active ? 'Start' : paused ? 'Resume' : 'Pause';
-
   return (
-    <div className={styles.clockButtonsWrap}>
-      <div className={styles.clockButtons}>
+    <div id="clock-buttons-wrap">
+      <div id="clock-buttons">
+        {/* <a id="start_stop" href="#play" role="button" onClick={toggle}>
+          {active && !paused ? (
+            <Icon icon="mdi:pause-circle-outline" />
+          ) : (
+            <Icon icon="mdi:play-circle-outline" />
+          )}
+        </a>
+        <a
+          className={!active ? 'disabled' : ''}
+          href="#stop"
+          role="button"
+          onClick={stop}>
+          <Icon icon="mdi:stop-circle-outline" />
+        </a> */}
         <button id="start_stop" type="button" onClick={toggle}>
-          {label}
+          {active && !paused ? (
+            <Icon icon="mdi:pause" />
+          ) : (
+            <Icon icon="mdi:play" />
+          )}
         </button>
         <button type="button" onClick={stop} disabled={!active}>
-          Stop
+          <Icon icon="mdi:stop" />
         </button>
       </div>
     </div>
   );
 }
-
-export default ClockButtons;
