@@ -1,17 +1,21 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { Icon } from '@iconify/react';
-import { ACTIONS } from '@js/clockReducer.js';
+import playIcon from '@iconify/icons-mdi/play';
+import pauseIcon from '@iconify/icons-mdi/pause';
 
-export default function Buttons({ clockState, dispatchClockUpdate }) {
-  const { active, paused } = clockState;
+import { SoundContext } from '@context/soundState.jsx';
+import { ClockContext } from '@context/clockState.jsx';
 
-  const toggle = () => {
-    dispatchClockUpdate({ type: ACTIONS.TOGGLE });
-  };
+import styles from './Buttons.module.css';
+
+export default function Buttons() {
+  const { stop: stopSound } = useContext(SoundContext);
+  const { active, paused, toggle, stop: stopClock } = useContext(ClockContext);
 
   const stop = () => {
-    dispatchClockUpdate({ type: ACTIONS.STOP });
+    stopSound();
+    stopClock();
   };
 
   useEffect(() => {
@@ -19,27 +23,13 @@ export default function Buttons({ clockState, dispatchClockUpdate }) {
   });
 
   return (
-    <div id="clock-buttons-wrap">
-      <div id="clock-buttons">
-        {/* <a id="start_stop" href="#play" role="button" onClick={toggle}>
-          {active && !paused ? (
-            <Icon icon="mdi:pause-circle-outline" />
-          ) : (
-            <Icon icon="mdi:play-circle-outline" />
-          )}
-        </a>
-        <a
-          className={!active ? 'disabled' : ''}
-          href="#stop"
-          role="button"
-          onClick={stop}>
-          <Icon icon="mdi:stop-circle-outline" />
-        </a> */}
+    <div id={styles.buttonsWrap}>
+      <div id={styles.buttons}>
         <button id="start_stop" type="button" onClick={toggle}>
           {active && !paused ? (
-            <Icon icon="mdi:pause" />
+            <Icon icon={pauseIcon} />
           ) : (
-            <Icon icon="mdi:play" />
+            <Icon icon={playIcon} />
           )}
         </button>
         <button type="button" onClick={stop} disabled={!active}>

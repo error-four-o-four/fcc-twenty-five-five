@@ -1,59 +1,99 @@
-import { RESET_VALUES, SOURCE_VALUES } from '@js/settingsReducer.js';
-import { TYPES, ACTIONS } from '@js/clockReducer.js';
+import { useContext, useEffect } from 'react';
+import reloadIcon from '@iconify/icons-mdi/reload';
+import playIcon from '@iconify/icons-mdi/play';
+import pauseIcon from '@iconify/icons-mdi/pause';
 
-import NumberComponent from './number/number.jsx';
-import ResetComponent from './reset/reset.jsx';
-import VolumeComponent from './volume/volume.jsx';
-import SelectComponent from './select/select.jsx';
-import CheckboxComponent from './checkbox/checkbox.jsx';
+import { SOUND_SOURCES, SoundContext } from '@context/soundState.jsx';
+import { SettingsContext } from '@context/settingsState.jsx';
+import { TYPES, ClockContext } from '@context/clockState.jsx';
 
-export default function Settings({
-  settingsState,
-  dispatchSettingsUpdate,
-  dispatchClockUpdate,
-}) {
+import NumberComponent from '../inputs/Number.jsx';
+import VolumeComponent from '../inputs/Volume.jsx';
+import SelectComponent from '../inputs/Select.jsx';
+// import CheckboxComponent from '../inputs/Checkbox.jsx';
+import ButtonComponent from '../inputs/Button.jsx';
+
+import styles from './Settings.module.css';
+
+export default function Settings() {
+  const {
+    loaded,
+    playing,
+    stop: stopSound,
+    play: playSound,
+    updateSource,
+  } = useContext(SoundContext);
+
+  const { durations, updateDuration, resetDurations } =
+    useContext(SettingsContext);
+
+  const { stop: stopClock } = useContext(ClockContext);
+
+  const handleReset = () => {
+    resetDurations();
+    stopClock();
+    stopSound();
+  };
+
+  const handlePreview = () => {
+    if (playing) {
+      stopSound();
+      return;
+    }
+
+    playSound();
+  };
+
+  useEffect(() => {
+    console.count('Rendered Settings');
+  });
+
   return (
-    <div id="settings-wrap">
+    <>
       <div>
         {Object.values(TYPES).map((type) => (
-          <div key={type} className="settings-part">
+          <div key={type} className={styles.inputWrap}>
             <NumberComponent
               type={type}
-              state={settingsState}
-              dispatch={dispatchSettingsUpdate}
+              value={durations[type]}
+              dispatch={updateDuration}
             />
           </div>
         ))}
-        <div className="settings-part">
-          <ResetComponent
-            dispatchClockUpdate={dispatchClockUpdate}
-            dispatchSettingsUpdate={dispatchSettingsUpdate}
+        <div className={styles.inputWrap}>
+          <ButtonComponent
+            label="Reset values:"
+            icon={reloadIcon}
+            dispatch={handleReset}
           />
         </div>
-        <div className="settings-part">
-          <CheckboxComponent
-            id="countdown"
-            state={settingsState}
-            dispatch={dispatchSettingsUpdate}
-          />
+        {/*
+        <div className={styles.inputWrap}>
+          <CheckboxComponent id="countdown" dispatch={() => {}} />
         </div>
+        */}
       </div>
       <div>
-        <div className="settings-part">
-          <VolumeComponent
-            id="audio-volume"
-            state={settingsState}
-            dispatch={dispatchSettingsUpdate}
-          />
+        <div className={styles.inputWrap}>
+          <VolumeComponent id="audio-volume" />
         </div>
-        <div className="settings-part">
+        <div className={styles.inputWrap}>
           <SelectComponent
             id="audio-source"
-            options={SOURCE_VALUES}
-            dispatch={dispatchSettingsUpdate}>
-          </SelectComponent>
+            label="Sound:"
+            options={SOUND_SOURCES}
+            dispatch={updateSource}
+          />
+        </div>
+        <div className={styles.inputWrap}>
+          <ButtonComponent
+            label="Preview:"
+            icon={!playing ? playIcon : pauseIcon}
+            dispatch={handlePreview}
+            disabled={!loaded}
+          />
         </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -1,3 +1,5 @@
+import styles from './Timer.module.css';
+
 const { PI } = Math;
 const PI_HALF = 0.5 * PI;
 const TAU = 2 * PI;
@@ -85,20 +87,19 @@ export default function CountdownSVG({ props }) {
     totalTicks,
     sessionTicks
   );
-  // const progressArc = getProgressArc(ticks / totalTicks);
 
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox={viewBox}>
       <circle cx={cx} cy={cy} r={innerFillRadius} />
-      <text id="label" x={cx} y={0.65 * cy} textAnchor="middle">
+      <text id={styles.label} x={cx} y={0.65 * cy} textAnchor="middle">
         {label}
       </text>
-      <text id="left" x={cx} y={cy} textAnchor="middle">
+      <text id={styles.left} x={cx} y={cy} textAnchor="middle">
         {left}
       </text>
-      <path id="session" d={sessionArc} />
-      <path id="break" d={breakArc} />
-      <path id="progress" d={progressArc} />
+      <path id={styles.session} d={sessionArc} />
+      <path id={styles.break} d={breakArc} />
+      <path id={styles.progress} d={progressArc} />
     </svg>
   );
 }

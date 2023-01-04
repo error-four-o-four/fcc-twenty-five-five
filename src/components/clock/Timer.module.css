@@ -1,0 +1,62 @@
+#timer-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  & svg {
+    stroke-width: 0.5;
+
+    & circle {
+      stroke: none;
+      fill: var(--color-medium);
+      opacity: 0.325;
+    }
+
+    & text {
+      font-weight: bold;
+      stroke: none;
+    }
+    & text#label {
+      font-size: 1.25rem;
+      fill: var(--accent-medium);
+    }
+    & text#left {
+      font-size: 2.5rem;
+      fill: var(--color-light);
+    }
+
+    & path#session {
+      fill: var(--accent-medium);
+      stroke: var(--accent-medium);
+    }
+    & path#break {
+      fill: var(--accent-dark);
+      stroke: var(--accent-dark);
+    }
+  }
+
+  &:not(.active) svg {
+    & path#progress {
+      visibility: hidden;
+    }
+  }
+
+  &.active svg {
+    & path#progress {
+      visibility: visible;
+      fill: var(--color-medium);
+      stroke: var(--color-medium);
+    }
+  }
+
+  &.active.break svg {
+    & text#label {
+      fill: var(--accent-dark);
+    }
+  }
+}
+
+.hidden {
+  height: 0px;
+  overflow: hidden;
+}

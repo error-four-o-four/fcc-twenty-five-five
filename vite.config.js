@@ -32,6 +32,10 @@ export default (args) => {
           replacement: path.resolve(__dirname, './src/assets/js'),
         },
         {
+          find: '@context',
+          replacement: path.resolve(__dirname, './src/context'),
+        },
+        {
           find: '@components',
           replacement: path.resolve(__dirname, './src/components'),
         },

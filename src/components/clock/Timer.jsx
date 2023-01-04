@@ -1,23 +1,20 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { SoundContext } from '@context/soundState.jsx';
+import { SettingsContext } from '@context/settingsState.jsx';
+import { TYPES, ClockContext } from '@context/clockState.jsx';
 
-import { TYPES } from '@js/clockReducer.js';
-import { toTitleCase } from '@js/utils.js';
+import { toTitleCase, toMmSsCase } from '@js/utils.js';
 
 import TimerSvg from './TimerSvg.jsx';
+import styles from './Timer.module.css';
 
-const toMmSsCase = (ticks, session, total) => {
-  const remaining = ticks <= session ? session - ticks : total - ticks;
-  const minutes = `${Math.floor(remaining / 60)}`.padStart(2, '0');
-  const seconds = `${remaining % 60}`.padStart(2, '0');
+export default function Countdown() {
+  const { play: playSound } = useContext(SoundContext);
+  const { active, paused } = useContext(ClockContext);
+  const { durations } = useContext(SettingsContext);
 
-  return `${minutes}:${seconds}`;
-};
-
-export default function Countdown({ clockState, settingsState }) {
-  const { active, paused } = clockState;
-
-  const sessionTicks = settingsState[TYPES.SESSION] * 60;
-  const totalTicks = settingsState.total * 60 + 2;
+  const sessionTicks = durations[TYPES.SESSION] * 60;
+  const totalTicks = durations.total * 60 + 2;
 
   const [ticks, setTicks] = useState(0);
   const [type, setType] = useState(TYPES.SESSION);
@@ -34,17 +31,19 @@ export default function Countdown({ clockState, settingsState }) {
     }
 
     if (!interval.current && active && !paused) {
-      interval.current = setInterval(updateTicks, 250);
+      interval.current = setInterval(updateTicks, 1000);
     }
   }, [active, paused, updateTicks]);
 
   const checkType = useCallback(() => {
     if (type === TYPES.SESSION && ticks > sessionTicks) {
       setType(TYPES.BREAK);
+      playSound();
     }
 
     if (type === TYPES.BREAK && ticks === 0) {
       setType(TYPES.SESSION);
+      playSound();
     }
   }, [ticks, sessionTicks, type, setType]);
 
@@ -54,8 +53,8 @@ export default function Countdown({ clockState, settingsState }) {
     checkInterval();
     checkType();
 
-    console.count('Render Countdown');
-    // console.log(styles);
+    // console.count('Render Countdown');
+    // console.log(settings);
 
     return () => {
       if (interval.current && (!active || paused)) {
@@ -66,10 +65,6 @@ export default function Countdown({ clockState, settingsState }) {
 
   const label = toTitleCase(type);
   const left = toMmSsCase(ticks, sessionTicks, totalTicks - 1);
-  const hide = {
-    height: '0px',
-    overflow: 'hidden',
-  };
 
   const svgProps = {
     label,
@@ -80,9 +75,11 @@ export default function Countdown({ clockState, settingsState }) {
   };
 
   return (
-    <div id="clock-visuals-wrap" className={active ? `active ${type}` : ''}>
+    <div
+      id={styles.timerWrap}
+      className={active ? `${styles.active} ${type}` : ''}>
       <TimerSvg props={svgProps} />
-      <div style={hide}>
+      <div className={styles.hidden}>
         <div id="timer-label">{label}</div>
         <div id="time-left">{left}</div>
       </div>

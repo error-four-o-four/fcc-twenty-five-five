@@ -1,39 +1,43 @@
-import { useEffect, useReducer } from 'react';
-import { settingsReducer, initialSettingsState } from '@js/settingsReducer.js';
-import { clockReducer, initialClockState } from '@js/clockReducer.js';
+import { useEffect } from 'react';
+
+import { SettingsProvider } from '@context/settingsState.jsx';
+import { SoundProvider } from '@context/soundState.jsx';
+import { ClockProvider } from '@context/clockState.jsx';
 
 import Settings from './settings/Settings.jsx';
-import Clock from './clock/Clock.jsx';
+import Timer from './clock/Timer.jsx';
+import Buttons from './clock/Buttons.jsx';
 
 function App() {
-  const [settingsState, dispatchSettingsUpdate] = useReducer(
-    settingsReducer,
-    initialSettingsState
-  );
-
-  const [clockState, dispatchClockUpdate] = useReducer(
-    clockReducer,
-    initialClockState
-  );
-
   useEffect(() => {
     console.count('Render App');
-    // console.log(clockState);
-    // console.log(settings);
   });
 
   return (
     <div className="App">
-      <Clock
-        clockState={clockState}
-        dispatchClockUpdate={dispatchClockUpdate}
-        settingsState={settingsState}
-      />
-      <Settings
-        settingsState={settingsState}
-        dispatchSettingsUpdate={dispatchSettingsUpdate}
-        dispatchClockUpdate={dispatchClockUpdate}
-      />
+      <SoundProvider>
+        <SettingsProvider>
+          <ClockProvider>
+            <div id="clock-wrap">
+              <Timer />
+              <Buttons />
+            </div>
+            <div id="settings-wrap">
+              <Settings />
+            </div>
+          </ClockProvider>
+        </SettingsProvider>
+      </SoundProvider>
+      <div id="disclaimer-wrap">
+        Sounds offered by:{' '}
+        <a href="https://orangefreesounds.com/">
+          <i>Orange Free Sounds</i>
+        </a>{' '}
+        and{' '}
+        <a href="https://quicksounds.com/">
+          <i>Quick Sounds</i>
+        </a>
+      </div>
     </div>
   );
 }
